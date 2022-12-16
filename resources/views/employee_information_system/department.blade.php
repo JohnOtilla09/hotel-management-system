@@ -21,9 +21,10 @@
                       <tr>
                         <th scope="col">Employee Name</th>
                         <th scope="col">ID Number</th>
-                        <th scope="col">Role</th>
+                        {{-- <th scope="col">Role</th> --}}
                         <th scope="col">Position</th>
                         <th scope="col">Departemnt</th>
+                        {{-- <th scope="col">Role</th> --}}
                       </tr>
                     </thead>
                     <tbody class="text-center">
@@ -34,9 +35,15 @@
                         <tr>
                             <td>{{$List->last_name}} {{$List->first_name}}</th>
                             <td>{{$List->id}}</td>
-                            <td>{{$List->role}}</td>
-                            <td>{{$List->position}}</td>
                             <td>{{$List->department}}</td>
+                            <td>{{$List->position}}</td>
+                            {{-- @foreach ($Roles as $Role)
+                                @if ($Role->employee_id == $List->id)
+                                    <td>{{$Role->role}}</td>
+                                @else
+                                    <td></td>
+                                @endif
+                            @endforeach --}}
                         </tr>
                       @endforeach
                         
