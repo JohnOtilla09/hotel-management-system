@@ -143,7 +143,10 @@ class EmployeeController extends Controller
         $Lists = DB::table('employees')
                 ->join('positions', 'employees.position_id', '=', 'positions.id')
                 ->join('departments', 'positions.department_id', '=', 'departments.id')
-                ->select(['employees.id', 'first_name', 'last_name', 'position', 'department'])
+                ->join('accounts', 'employees.id', '=', 'accounts.employee_id')
+                ->where('employees.deleted_at', null)
+                ->where('accounts.is_verified', '1')
+                ->select(['employees.*', 'position', 'department', 'position_id'])
                 ->get();
 
         $Roles = DB::table('employees')
@@ -156,6 +159,7 @@ class EmployeeController extends Controller
             'Lists' => $Lists,
             'Roles' => $Roles
         ]);
+    }
     // unverified employee
     protected function unverified() { 
         return view('employee_information_system/unverified');
