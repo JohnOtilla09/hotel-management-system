@@ -30,12 +30,28 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware(['auth','account.verified']);
 
 Auth::routes();
 
 // frontdesk
 Route::get('/frontdesk/dashboard', [FrontDeskController::class, "index"]);
+
+Route::get('/frontdesk/checkin', function () {
+    return view('frontdesk/checkin');
+});
+
+Route::get('/frontdesk/extendstay', function () {
+    return view('frontdesk/extendstay');
+});
+
+Route::get('/frontdesk/checkout', function () {
+    return view('frontdesk/checkout');
+});
+
+Route::get('/frontdesk/claimitem', function () {
+    return view('frontdesk/claimitem');
+});
 
 Route::get('/frontdesk/information', function () {
     return view('frontdesk/information');
@@ -93,13 +109,21 @@ Route::controller(EmployeeController::class)->group(function () {
     Route::get('/employee_information_system/verification', 'verification')->middleware('auth', 'role.admin' );
     Route::get('/employee_information_system/verification/verified/{list}', 'verified')->middleware('auth' , 'role.admin');
     Route::get('/employee_information_system/department', 'department')->middleware('auth' , 'role.admin');
+    Route::get('/unverified','unverified')->name('unverified')->middleware(['auth']);
+    Route::get('/employee_information_system/employees', 'index')->middleware(['auth', 'role.manager','account.verified']);
+    Route::get('/employee_information_system/profile/{list}', 'show')->middleware('auth' ,'account.verified');
+    Route::get('/employee_information_system/edit/{list}', 'edit')->middleware(['auth','role.admin' ,'account.verified']);
+    Route::patch('/employee_information_system/{list}', 'update')->middleware(['auth', 'role.manager' ,'account.verified']);
+    Route::delete('/employee_information_system/delete/{list}', 'delete')->middleware(['auth', 'role.admin' ,'account.verified']);
+    Route::get('/employee_information_system/verification', 'verification')->middleware('auth', 'role.admin' ,'account.verified');
+    Route::get('/employee_information_system/verification/verified/{list}', 'verified')->middleware('auth' , 'role.admin' ,'account.verified');
 });
 
 Route::controller(Daily_Time_RecordController::class)->group(function () {
-    Route::get('/employee_information_system/dtr', 'show')->middleware('auth', 'role.manager');
-    Route::get('/employee_information_system/profile/dtr/{employee}', 'show_employee_dtr')->middleware('auth');
-    Route::post('/employee_information_system/record/timeIn', 'timeIn')->middleware('auth');
-    Route::post('/employee_information_system/record/timeOut', 'timeOut')->middleware('auth');
+    Route::get('/employee_information_system/dtr', 'show')->middleware('auth', 'role.manager' ,'account.verified');
+    Route::get('/employee_information_system/profile/dtr/{employee}', 'show_employee_dtr')->middleware('auth' ,'account.verified');
+    Route::post('/employee_information_system/record/timeIn', 'timeIn')->middleware('auth' ,'account.verified');
+    Route::post('/employee_information_system/record/timeOut', 'timeOut')->middleware('auth' ,'account.verified');
 });
 
 
