@@ -85,21 +85,24 @@ class EmployeeController extends Controller
             'contact_number' => ['required', 'string'],
             'position_id' => ['string']
         ]);
+
+        dd($list);
+
         //dd($list->id);
-        $list->update($formFields);
-        $roles = request()->roles;
+        // $list->update($formFields);
+        // $roles = request()->roles;
         // dd($roles);
 
-        if ($roles) {
-            EmployeeRole::where('employee_id', $list->id)->delete();
-            foreach ($roles as $role) {
-                if (count(EmployeeRole::where('employee_id', $list->id)->where('role_id', $role)->get()) == 0) {
-                    EmployeeRole::create(['employee_id' => $list->id, "role_id" => $role]);
-                }
-            }
-        }
+        // if ($roles) {
+        //     EmployeeRole::where('employee_id', $list->id)->delete();
+        //     foreach ($roles as $role) {
+        //         if (count(EmployeeRole::where('employee_id', $list->id)->where('role_id', $role)->get()) == 0) {
+        //             EmployeeRole::create(['employee_id' => $list->id, "role_id" => $role]);
+        //         }
+        //     }
+        // }
 
-        return redirect("/employee_information_system/profile/{$list->id}");
+        // return redirect("/employee_information_system/profile/{$list->id}");
     }
 
     // delete employee
@@ -151,9 +154,10 @@ class EmployeeController extends Controller
 
         $Roles = DB::table('employees')
                 ->join('employee_roles', 'employees.id', '=', 'employee_roles.employee_id')
+                // ->select(['roles.role', 'employee_roles.employee_id'])
                 ->get();
         
-        // dd($Lists);
+        // dd($Roles);
 
         return view('employee_information_system.department', [
             'Lists' => $Lists,

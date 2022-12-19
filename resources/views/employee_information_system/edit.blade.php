@@ -25,6 +25,8 @@
                         <form method="POST" action="/employee_information_system/{{$list->id}}">
                             @csrf
                             @method('PATCH')
+
+                        {{-- {{$list->id}} --}}
                         
                         <h6 class="text-center mb-1" style="color: #1840C4">Basic Information</h6>
                         <div class="row"> <!-- WORK START/END ROW -->
@@ -178,12 +180,12 @@
                         </div> --}}
                         
 
-                        <div class="col-6 ">
+                        {{-- <div class="col-6 ">
                             <label  for="position" class="col-form-label text-md-end">{{ __('Position') }}</label>
-                                <select id="position" name="position" class="form-select">
-                                    <option value="" disabled selected hidden>-- Position --</option>
+                                <select name="position_id" id="position" name="position" class="form-select">
+                                    <option @if(count($Positions)==0) selected @else  @endif value="">-- Position --</option>
                                 @foreach ($Positions as $position)
-                                    <option value="{{$position->id}}">{{$position->position}}</option>
+                                    <option @if($position->id==$list->position_id) selected @endif value="{{$position->id}}">{{$position->position}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -196,9 +198,9 @@
                                     <option value="{{$department->id}}">{{$department->department}}</option>
                                 @endforeach
                             </select>
-                        </div>
+                        </div> --}}
 
-                        <div class="col-6">
+                        {{-- <div class="col-6">
                             <label class="col-form-label text-md-end" for="Role">{{ __('Role') }}</label>
                             <div class="col-form-label ">
                             <input type="radio" name="role" value="" class="invisible" checked="checked">
@@ -208,20 +210,22 @@
                             @endforeach
                             </div>
 
-                        </div>
+                        </div> --}}
                     </div>
-                    {{-- <div class="row">
-                        <div class="col-12">
-                            <label  for="position" class="col-form-label">{{ __('Role') }}</label>
-                            <div class="form-check">
-                                @foreach($Roles as $role) 
-                                <input class="form-check-input" type="checkbox" id="{{$role->role}}" name="roles[]" value="{{$role->id}}">
-                                <label class="form-check-label" for="{{$role->role}}"> {{$role->role}}</label><br>
-                                @endforeach
+                    {{-- @if($is_admin)
+                        <div class="row">
+                            <div class="col-12">
+                                <label  for="position" class="col-form-label">{{ __('Role') }}</label>
+                                <div class="form-check">
+                                    @foreach($Roles as $role) 
+                                    <input @if (in_array($role->id,$user_roles)) checked @endif class="form-check-input" type="checkbox" id="{{$role->role}}" name="roles[]" value="{{$role->id}}">
+                                    <label class="form-check-label" for="{{$role->role}}"> {{$role->role}}</label><br>
+                                    @endforeach
+                                </div>
                             </div>
+                        </div>    
+                    @endif --}}
                         
-                        </div>
-                    </div>     --}}
 
                         <!--EMAIL AND CONTACT NUMBER ROW-->
 
@@ -229,10 +233,8 @@
                         <div class="row"><!--PHOTO and POSITION-->
                             <div class="col-6">
                                 <label for="photo" class="col-form-label text-md-end">{{ __('Photo') }}</label>
-
                                 <div class="">
                                     <input id="photo" type="file" class="form-control @error('photo') is-invalid @enderror" name="photo" value="{{ old('photo') ?? Auth::user()->photo }}" required autocomplete="photo" autofocus>
-
                                     @error('photo')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -240,8 +242,6 @@
                                     @enderror   
                                 </div>
                             </div>
-
-
                             <div class="col-6">
                                 <label  for="position" class="col-form-label text-md-end">{{ __('Position') }}</label>
                                 <div class="">
@@ -255,7 +255,6 @@
                                 </div>
                             </div>
                         </div><!--PHOTO and POSITION-->
-
                         <div class="row"><!-- DEPARTMENT AND ROLE -->
                             <div class="col-6">
                                 <label  for="department" class="col-form-label text-md-end">{{ __('Department') }}</label>
@@ -269,8 +268,6 @@
                                     </select>
                                 </div>
                             </div>
-
-
                             <div class="col-6">
                                 <label class="col-form-label text-md-end" for="Role">{{ __('Role') }}</label>
                                 <div class="col-form-label ">
@@ -284,15 +281,11 @@
                                 </div>
                             </div>
                         </div>
-
-
                         <div class="row"><!-- PASSWORD AND PASSWROD CONFIRMATION -->
                             <div class="col-6">
                                 <label for="password" class="col-form-label text-md-end">{{ __('Password') }}</label>
-
                                 <div class="">
                                     <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
-
                                     @error('password')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -300,10 +293,8 @@
                                     @enderror
                                 </div>
                             </div>
-
                             <div class="col-6">
                                 <label for="password-confirm" class="col-form-label text-md-end">{{ __('Confirm Password') }}</label>
-
                                 <div class="">
                                     <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
                                 </div>

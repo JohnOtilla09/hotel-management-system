@@ -101,19 +101,19 @@ Route::controller(UserController::class)->group(function () {
 });
 
 Route::controller(EmployeeController::class)->group(function () {
-    Route::get('/employee_information_system/employees', 'index')->middleware(['auth', 'role.manager']);
-    Route::get('/employee_information_system/profile/{list}', 'show')->middleware('auth');
-    Route::get('/employee_information_system/edit/{list}', 'edit')->middleware(['auth','role.admin']);
-    Route::patch('/employee_information_system/{list}', 'update')->middleware(['auth', 'role.manager']);
-    Route::delete('/employee_information_system/delete/{list}', 'delete')->middleware(['auth', 'role.admin']);
-    Route::get('/employee_information_system/verification', 'verification')->middleware('auth', 'role.admin' );
-    Route::get('/employee_information_system/verification/verified/{list}', 'verified')->middleware('auth' , 'role.admin');
+    // Route::get('/employee_information_system/employees', 'index')->middleware(['auth', 'role.manager']);
+    // Route::get('/employee_information_system/profile/{list}', 'show')->middleware('auth');
+    // Route::get('/employee_information_system/edit/{list}', 'edit')->middleware(['auth','role.admin']);
+    // Route::patch('/employee_information_system/{list}', 'update')->middleware(['auth', 'role.manager']);
+    // Route::delete('/employee_information_system/delete/{list}', 'delete')->middleware(['auth', 'role.admin']);
+    // Route::get('/employee_information_system/verification', 'verification')->middleware('auth', 'role.admin' );
+    // Route::get('/employee_information_system/verification/verified/{list}', 'verified')->middleware('auth' , 'role.admin');
     Route::get('/employee_information_system/department', 'department')->middleware('auth' , 'role.admin');
     Route::get('/unverified','unverified')->name('unverified')->middleware(['auth']);
     Route::get('/employee_information_system/employees', 'index')->middleware(['auth', 'role.manager','account.verified']);
     Route::get('/employee_information_system/profile/{list}', 'show')->middleware('auth' ,'account.verified');
     Route::get('/employee_information_system/edit/{list}', 'edit')->middleware(['auth','role.admin' ,'account.verified']);
-    Route::patch('/employee_information_system/{list}', 'update')->middleware(['auth', 'role.manager' ,'account.verified']);
+    // Route::patch('/employee_information_system/update/{list}', 'update')->middleware(['auth', 'role.manager' ,'account.verified']);
     Route::delete('/employee_information_system/delete/{list}', 'delete')->middleware(['auth', 'role.admin' ,'account.verified']);
     Route::get('/employee_information_system/verification', 'verification')->middleware('auth', 'role.admin' ,'account.verified');
     Route::get('/employee_information_system/verification/verified/{list}', 'verified')->middleware('auth' , 'role.admin' ,'account.verified');
