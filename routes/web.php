@@ -90,11 +90,12 @@ Route::prefix('accounting')->group(function () {
     Route::get('expenses', [AccountingController::class, 'expenses']);
     # Expense View
     Route::get('expenses/{date}', [AccountingController::class, 'expensesShow']);
+
+    Route::delete('payrolls/{id}', [AccountingController::class, 'delete_payroll']);
 });
 
 
 //employee
-// test
 Route::controller(UserController::class)->group(function () {
     Route::post('/registration', 'store');
     Route::post('/login/auth', 'login');
@@ -117,6 +118,9 @@ Route::controller(EmployeeController::class)->group(function () {
     Route::delete('/employee_information_system/delete/{list}', 'delete')->middleware(['auth', 'role.admin' ,'account.verified']);
     Route::get('/employee_information_system/verification', 'verification')->middleware('auth', 'role.admin' ,'account.verified');
     Route::get('/employee_information_system/verification/verified/{list}', 'verified')->middleware('auth' , 'role.admin' ,'account.verified');
+
+
+    Route::get('/employee_information_system/department', 'department')->middleware('auth' , 'role.admin');
 });
 
 Route::controller(Daily_Time_RecordController::class)->group(function () {
