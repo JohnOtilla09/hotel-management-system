@@ -138,37 +138,29 @@ class EmployeeController extends Controller
         return redirect('employee_information_system/employees');
     }
 
-    // department
-    protected function department() {
-        $Lists = DB::table('employees')
-                ->join('positions', 'employees.position_id', '=', 'positions.id')
-                ->join('departments', 'positions.department_id', '=', 'departments.id')
-                ->join('accounts', 'employees.id', '=', 'accounts.employee_id')
-                ->where('employees.deleted_at', null)
-                ->where('accounts.is_verified', '1')
-                ->select(['employees.*', 'position', 'department', 'position_id'])
-                ->get();
-
-        $Roles = DB::table('employees')
-                ->join('employee_roles', 'employees.id', '=', 'employee_roles.employee_id')
-                // ->select(['roles.role', 'employee_roles.employee_id'])
-                ->get();
-        
-        // dd($Roles);
-
-        return view('employee_information_system.department', [
-            'Lists' => $Lists,
-            'Roles' => $Roles
-        ]);
-    }
     // unverified employee
     protected function unverified() { 
         return view('employee_information_system/unverified');
     }
 
     protected function department(){
-        $employees=Employee::all();
-        return view('/employee_information_system/department',['Lists'=>$employees]); 
+
+        $positions = DB::table('employees')
+                ->join('positions', 'employees.position_id', '=', 'positions.id')
+                ->join('departments', 'positions.department_id', '=', 'departments.id')
+                ->select(['employees.*', 'position', 'department'])
+                ->get();
+
+        $roles = DB::table('employees')
+                ->join('employee_roles', 'employees.id', '=', 'employee_roles.employee_id')
+                ->join('roles', 'employee_roles.role_id', '=', 'roles.id')
+                ->select(['first_name', 'last_name', 'employee_id', 'role'])
+                ->get();
+
+        return view('/employee_information_system/department',[
+            'Lists'=> $positions,
+            'Roles' => $roles
+        ]); 
     }
 
 }

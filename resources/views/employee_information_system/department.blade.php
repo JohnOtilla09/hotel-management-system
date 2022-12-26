@@ -19,11 +19,11 @@
                 <table id="table" class="table table-hover table-primary table-striped text-center shadow-sm">
                     <thead>
                       <tr class="text-center">
-                        <th class="text-center" scope="col">Employee Name</th>
                         <th class="text-center"scope="col">ID Number</th>
-                        <th class="text-center"scope="col">Role</th>
+                        <th class="text-center" scope="col">Employee Name</th>
                         <th class="text-center"scope="col">Position</th>
                         <th class="text-center"scope="col">Departemnt</th>
+                        <th class="text-center"scope="col">Role</th>
                       </tr>
                     </thead>
                     <tbody class="text-center">
@@ -31,16 +31,14 @@
                     @unless (count($Lists) == 0)
                     
                       @foreach ($Lists as $List)
-                      @if ($List->position_id == null || $List->position_id != null)
-                          
-                      @endif
-                        <tr>
-                            <td>{{$List->last_name}} {{$List->first_name}}</th>
-                            <td>{{$List->id}}</td>
-                            <td>{{$List->role}}</td>
-                            <td>{{$List->position->position}}</td>
-                            <td>{{$List->position->department->department}}</td>
-                        </tr> 
+                      <tr>
+                        <td>{{$List->id}}</td>
+                        <td>{{$List->last_name}} {{$List->first_name}}</td>
+                          {{-- <td>{{$List->role}}</td> --}}
+                          <td>{{$List->position}}</td>
+                          <td>{{$List->department}}</td>
+                          <td></td>
+                      </tr> 
                       @endforeach
                         
                     @else
